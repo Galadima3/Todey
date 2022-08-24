@@ -1,8 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:todoey/models/task_data.dart';
 import 'package:todoey/screens/add_task_screen.dart';
-import 'package:todoey/widgets/task_tile.dart';
+
 import 'package:todoey/widgets/tasks_list.dart';
 
 //#757575
@@ -21,8 +26,16 @@ class TasksScreen extends StatelessWidget {
             isScrollControlled: true,
             builder: (context) => SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddTaskScreen(),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: AddTaskScreen(
+                  addTaskCallback: (newTaskTitle) {
+                    // setState(() {
+                    //   tasks.add(Task(name: newTaskTitle));
+                    // });
+                    Navigator.pop(context);
+                  },
+                ),
               ),
             ),
           );
@@ -58,7 +71,7 @@ class TasksScreen extends StatelessWidget {
                       fontWeight: FontWeight.w700),
                 ),
                 Text(
-                  '12 Tasks',
+                  '${Provider.of<TaskData>(context).tasks.length} Tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
